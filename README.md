@@ -34,7 +34,7 @@ go test -bench=. -args Basic
 
 2. Pass a `count` arg to the `go` command to run the benchmark multiple times.
 ```shell
-go test -bench=. -args Basic -count 10
+go test -bench=. -count 10 -args Basic 
 ```
 
 ## Second round: Naive with sub-benchmarks
