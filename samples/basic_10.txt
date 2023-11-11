@@ -1,0 +1,15 @@
+goos: darwin
+goarch: arm64
+pkg: github.com/jh125486/benchmarking_demo
+BenchmarkPrimeNumbers-10    	  263499	      4089 ns/op
+BenchmarkPrimeNumbers-10    	  291126	      4103 ns/op
+BenchmarkPrimeNumbers-10    	  295977	      4290 ns/op
+BenchmarkPrimeNumbers-10    	  297620	      4126 ns/op
+BenchmarkPrimeNumbers-10    	  300175	      4086 ns/op
+BenchmarkPrimeNumbers-10    	  294369	      4048 ns/op
+BenchmarkPrimeNumbers-10    	  293323	      4132 ns/op
+BenchmarkPrimeNumbers-10    	  292233	      4125 ns/op
+BenchmarkPrimeNumbers-10    	  299030	      4078 ns/op
+BenchmarkPrimeNumbers-10    	  295084	      4126 ns/op
+PASS
+ok  	github.com/jh125486/benchmarking_demo	12.586s

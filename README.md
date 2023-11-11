@@ -23,9 +23,21 @@ Steps:
 
 To demonstrate the builtin [`go` tool](https://pkg.go.dev/cmd/go) benchmarking, we'll be using some simple functions to compute all the [Prime numbers](https://en.wikipedia.org/wiki/Prime_number) up to a max `int` value. My point in this isn't to demonstrate Prime Number algorithms... merely Go benchmarking.
 
----
+## Testing first....
+
+A test functions in Go start with the word `Test`, and takes `*testing.T` as the only parameter.
+
+To test each of our Prime number functions, we have created a test function, which compares the output of the function to a known good list of all primes numbers under 1000... which should give us a good indication of it's correctness for our needs.
+
+If we wrote the functions correctly, each should pass within a few milliseconds :)
+
+```shell
+go test ./...
+```
 
 ## First round: Naive basic
+
+A benchmark function in Go starts with the word `Benchmark` and takes `*testing.B` as the only parameter. To run a benchmark, pass the `bench` flag to `go test`, along with the package to test.  In our case, we're restricting each benchmark for clarity with `-args`.
 
 1. Let's run Go's builtin benchmark on our naive Prime Number function:
 ```shell
@@ -96,13 +108,13 @@ go install golang.org/x/perf/cmd/benchstat@latest
 
 3. Now let's re-run the benchmarks and save off the results:
 ```shell
-go test -bench=. -count 10 -args Naive > naive.txt
-go test -bench=. -count 10 -args Eratos > eratos.txt
+go test -bench=. -count 10 -args Naive > naive_10.txt
+go test -bench=. -count 10 -args Eratos > eratos_10.txt
 ```
 
 4. [`benchstat`](https://pkg.go.dev/golang.org/x/perf/cmd/benchstat) can calculate differences with a confidence interval at level 0.95, so let's show generate that:
 ```shell
-benchstat eratos.txt naive.txt
+benchstat eratos_10.txt naive_10.txt
 ```
 It should show an impressive speed up... so that's a great start.
 
@@ -119,12 +131,12 @@ So let's fix that.  There's a number of concurrent Prime-finding algorithms, but
 1. Run a benchmark on the concurrent Sieve of Atkin and save off the results:
 
 ```shell
-go test -bench=. -count 10 -args Atkin > atkin.txt
+go test -bench=. -count 10 -args Atkin > atkin_10.txt
 ```
 
 2. Check the results against both the non-concurrent *Sieve of Eratosthenes*, and the *Naive* version:
 ```shell
-benchstat atkin.txt eratos.txt
+benchstat atkin_10.txt eratos_10.txt
 ```
 
 You should notice that on the smaller input values that Atkin is actually slower.  That's probably because the actual setup and coordination to handle the concurrent communication has some overhead, which overruns the performance gains on the low-end.  Once the values start to increase, we should see that it performs ~500% faster on the high inputs.

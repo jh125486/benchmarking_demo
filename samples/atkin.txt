@@ -1,65 +1,11 @@
 goos: darwin
 goarch: arm64
-pkg: github.com/jh125486/dd_benchmarking
-BenchmarkPrimeNumbers/input=1000-10         	    1418	    844683 ns/op	  534327 B/op	      39 allocs/op
-BenchmarkPrimeNumbers/input=1000-10         	    1428	    849473 ns/op	  534279 B/op	      39 allocs/op
-BenchmarkPrimeNumbers/input=1000-10         	    1428	    845932 ns/op	  534295 B/op	      39 allocs/op
-BenchmarkPrimeNumbers/input=1000-10         	    1425	    844169 ns/op	  534275 B/op	      39 allocs/op
-BenchmarkPrimeNumbers/input=1000-10         	    1420	    877787 ns/op	  534273 B/op	      39 allocs/op
-BenchmarkPrimeNumbers/input=1000-10         	    1260	    868210 ns/op	  534294 B/op	      39 allocs/op
-BenchmarkPrimeNumbers/input=1000-10         	    1428	    848627 ns/op	  534270 B/op	      39 allocs/op
-BenchmarkPrimeNumbers/input=1000-10         	    1410	    845598 ns/op	  534267 B/op	      39 allocs/op
-BenchmarkPrimeNumbers/input=1000-10         	    1431	    845367 ns/op	  534270 B/op	      39 allocs/op
-BenchmarkPrimeNumbers/input=1000-10         	    1422	    846074 ns/op	  534284 B/op	      39 allocs/op
-BenchmarkPrimeNumbers/input=10000-10        	    1383	    862950 ns/op	  555404 B/op	      42 allocs/op
-BenchmarkPrimeNumbers/input=10000-10        	    1383	    863173 ns/op	  555389 B/op	      42 allocs/op
-BenchmarkPrimeNumbers/input=10000-10        	    1384	    868336 ns/op	  555390 B/op	      42 allocs/op
-BenchmarkPrimeNumbers/input=10000-10        	    1402	    865788 ns/op	  555390 B/op	      42 allocs/op
-BenchmarkPrimeNumbers/input=10000-10        	    1390	    865766 ns/op	  555400 B/op	      42 allocs/op
-BenchmarkPrimeNumbers/input=10000-10        	    1396	    865422 ns/op	  555390 B/op	      42 allocs/op
-BenchmarkPrimeNumbers/input=10000-10        	    1396	    866606 ns/op	  555398 B/op	      42 allocs/op
-BenchmarkPrimeNumbers/input=10000-10        	    1364	    869181 ns/op	  555406 B/op	      42 allocs/op
-BenchmarkPrimeNumbers/input=10000-10        	    1372	    869467 ns/op	  555389 B/op	      42 allocs/op
-BenchmarkPrimeNumbers/input=10000-10        	    1395	    873123 ns/op	  555394 B/op	      42 allocs/op
-BenchmarkPrimeNumbers/input=100000-10       	    1221	    992438 ns/op	  887833 B/op	      49 allocs/op
-BenchmarkPrimeNumbers/input=100000-10       	    1222	    978370 ns/op	  887835 B/op	      49 allocs/op
-BenchmarkPrimeNumbers/input=100000-10       	    1225	    980218 ns/op	  887841 B/op	      50 allocs/op
-BenchmarkPrimeNumbers/input=100000-10       	    1232	    979948 ns/op	  887850 B/op	      50 allocs/op
-BenchmarkPrimeNumbers/input=100000-10       	    1220	    981077 ns/op	  887842 B/op	      50 allocs/op
-BenchmarkPrimeNumbers/input=100000-10       	    1232	    993769 ns/op	  887839 B/op	      49 allocs/op
-BenchmarkPrimeNumbers/input=100000-10       	    1216	    981933 ns/op	  887848 B/op	      50 allocs/op
-BenchmarkPrimeNumbers/input=100000-10       	    1227	    981175 ns/op	  887841 B/op	      50 allocs/op
-BenchmarkPrimeNumbers/input=100000-10       	    1224	    984750 ns/op	  887841 B/op	      50 allocs/op
-BenchmarkPrimeNumbers/input=100000-10       	    1222	    985462 ns/op	  887832 B/op	      49 allocs/op
-BenchmarkPrimeNumbers/input=1000000-10      	     597	   2014496 ns/op	 3747031 B/op	      59 allocs/op
-BenchmarkPrimeNumbers/input=1000000-10      	     595	   2047258 ns/op	 3747024 B/op	      59 allocs/op
-BenchmarkPrimeNumbers/input=1000000-10      	     597	   2012257 ns/op	 3747047 B/op	      60 allocs/op
-BenchmarkPrimeNumbers/input=1000000-10      	     582	   2025671 ns/op	 3747003 B/op	      59 allocs/op
-BenchmarkPrimeNumbers/input=1000000-10      	     589	   2044715 ns/op	 3747055 B/op	      60 allocs/op
-BenchmarkPrimeNumbers/input=1000000-10      	     592	   2028263 ns/op	 3747058 B/op	      60 allocs/op
-BenchmarkPrimeNumbers/input=1000000-10      	     588	   2039894 ns/op	 3747013 B/op	      59 allocs/op
-BenchmarkPrimeNumbers/input=1000000-10      	     592	   2034926 ns/op	 3747031 B/op	      59 allocs/op
-BenchmarkPrimeNumbers/input=1000000-10      	     586	   2042468 ns/op	 3747022 B/op	      59 allocs/op
-BenchmarkPrimeNumbers/input=1000000-10      	     585	   2037672 ns/op	 3747008 B/op	      59 allocs/op
-BenchmarkPrimeNumbers/input=10000000-10     	     121	   9769852 ns/op	27012316 B/op	      68 allocs/op
-BenchmarkPrimeNumbers/input=10000000-10     	     122	   9821734 ns/op	27012241 B/op	      68 allocs/op
-BenchmarkPrimeNumbers/input=10000000-10     	     122	   9732225 ns/op	27012360 B/op	      69 allocs/op
-BenchmarkPrimeNumbers/input=10000000-10     	     122	   9723874 ns/op	27012372 B/op	      69 allocs/op
-BenchmarkPrimeNumbers/input=10000000-10     	     122	   9733357 ns/op	27012397 B/op	      69 allocs/op
-BenchmarkPrimeNumbers/input=10000000-10     	     100	  10316011 ns/op	27012355 B/op	      69 allocs/op
-BenchmarkPrimeNumbers/input=10000000-10     	     121	   9974623 ns/op	27012254 B/op	      68 allocs/op
-BenchmarkPrimeNumbers/input=10000000-10     	     121	   9731477 ns/op	27012340 B/op	      69 allocs/op
-BenchmarkPrimeNumbers/input=10000000-10     	     122	   9783321 ns/op	27012332 B/op	      69 allocs/op
-BenchmarkPrimeNumbers/input=10000000-10     	     122	   9761207 ns/op	27012368 B/op	      69 allocs/op
-BenchmarkPrimeNumbers/input=50000000-10     	      25	  42174472 ns/op	128965576 B/op	     124 allocs/op
-BenchmarkPrimeNumbers/input=50000000-10     	      27	  42142739 ns/op	128965607 B/op	     125 allocs/op
-BenchmarkPrimeNumbers/input=50000000-10     	      26	  42051984 ns/op	128965710 B/op	     126 allocs/op
-BenchmarkPrimeNumbers/input=50000000-10     	      26	  42484776 ns/op	128965478 B/op	     123 allocs/op
-BenchmarkPrimeNumbers/input=50000000-10     	      26	  42236337 ns/op	128965470 B/op	     123 allocs/op
-BenchmarkPrimeNumbers/input=50000000-10     	      26	  42225665 ns/op	128965330 B/op	     122 allocs/op
-BenchmarkPrimeNumbers/input=50000000-10     	      26	  42179301 ns/op	128965463 B/op	     123 allocs/op
-BenchmarkPrimeNumbers/input=50000000-10     	      26	  42264582 ns/op	128965507 B/op	     124 allocs/op
-BenchmarkPrimeNumbers/input=50000000-10     	      26	  42285630 ns/op	128965404 B/op	     122 allocs/op
-BenchmarkPrimeNumbers/input=50000000-10     	      27	  42082448 ns/op	128965678 B/op	     125 allocs/op
+pkg: github.com/jh125486/benchmarking_demo
+BenchmarkPrimeNumbers/input=1000-10         	    1500	    768905 ns/op
+BenchmarkPrimeNumbers/input=10000-10        	    1320	    821802 ns/op
+BenchmarkPrimeNumbers/input=100000-10       	    1303	    907007 ns/op
+BenchmarkPrimeNumbers/input=1000000-10      	     706	   1737997 ns/op
+BenchmarkPrimeNumbers/input=10000000-10     	     146	   8164551 ns/op
+BenchmarkPrimeNumbers/input=50000000-10     	      33	  35238859 ns/op
 PASS
-ok  	github.com/jh125486/dd_benchmarking	85.083s
+ok  	github.com/jh125486/benchmarking_demo	9.325s

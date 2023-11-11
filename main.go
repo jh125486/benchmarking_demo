@@ -53,11 +53,10 @@ func sieveOfEratosthenes(max int) []int {
 
 func sieveOfAtkin(max int) []int {
 	sieve := primegen.New()
+	// Start with 2
 	sieve.SkipTo(2)
-	var primes []int
-	i := sieve.Next()
-	for int(i) < max {
-		i = sieve.Next()
+	primes := make([]int, 0)
+	for i := sieve.Next(); int(i) <= max; i = sieve.Next() {
 		primes = append(primes, int(i))
 	}
 
