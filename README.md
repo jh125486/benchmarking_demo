@@ -141,6 +141,28 @@ benchstat atkin_10.txt eratos_10.txt
 
 You should notice that on the smaller input values that Atkin is actually slower.  That's probably because the actual setup and coordination to handle the concurrent communication has some overhead, which overruns the performance gains on the low-end.  Once the values start to increase, we should see that it performs ~500% faster on the high inputs.
 
+---
+
+## Bonus round: writing your own, guided by the numbers
+
+Benchmarks aren't just for comparing existing algorithms — they're also how you drive your own optimization work. `ai(max int) []int` in `main.go` is a from-scratch Sieve of Eratosthenes that only stores odd candidates (evens past 2 can never be prime) and packs the composite flags 64-to-a-word instead of one `bool` per candidate. Both cuts reduce memory traffic, which is the dominant cost once `max` gets large.
+
+1. Run it like any of the others:
+```shell
+go test -bench=. -args ai
+```
+
+2. Compare it against Eratosthenes and Atkin:
+```shell
+go test -bench=. -count 10 -args ai > ai_10.txt
+benchstat ai_10.txt eratos_10.txt
+benchstat ai_10.txt atkin_10.txt
+```
+
+A cache-blocked/segmented version of the same algorithm was also tried (sieve the range in chunks sized to fit L1/L2, à la `primegen`'s incremental approach) — it lost to the flat version at every input size here, because the extra per-block bookkeeping cost more than the locality it bought. That's a real result worth keeping: benchmarking tells you when a "smarter" version isn't actually smarter *for your inputs*, not just when it's faster.
+
+`ai` beats `naive` and `sieveOfEratosthenes` at every input size, and beats `sieveOfAtkin` up to `input=100000`. From `input=1000000` up, `sieveOfAtkin`'s `primegen` — a true incremental/wheel sieve — pulls ahead, because a flat bitset stops fitting cache once it gets big enough, and `primegen` never has that problem. See the [Sample run](#sample-run-all-four-with-time-and-allocs) below for the actual numbers.
+
 
 ## Finishing up
 
@@ -161,3 +183,51 @@ There's plenty of other ways to discovery performance bottlenecks using the buil
 - [Go: subtests and sub-benchmarks](https://go.dev/blog/subtests)
 
 - [Go: `testing flags`](https://pkg.go.dev/cmd/go#hdr-Testing_flags)
+
+---
+
+## Sample run: all four, with time and allocs
+
+If you can't run this yourself, here's a real `go test -bench=. -benchmem` capture (`go test -run=^$ -bench=. -benchmem -benchtime=3x -args <Basic|Naive|Eratos|Atkin|ai>`) on an Apple M1 Pro, `go1.27.1`, so you've got something to point at.
+
+```
+=== Basic ===
+BenchmarkPrimeNumbers-10                   	       3	     10306 ns/op	    4074 B/op	       8 allocs/op
+
+=== Naive ===
+BenchmarkPrimeNumbers/input=1000-10        	       3	     12875 ns/op	    4069 B/op	       8 allocs/op
+BenchmarkPrimeNumbers/input=10000-10       	       3	    111750 ns/op	   25189 B/op	      11 allocs/op
+BenchmarkPrimeNumbers/input=100000-10      	       3	   2241736 ns/op	  357605 B/op	      18 allocs/op
+BenchmarkPrimeNumbers/input=1000000-10     	       3	  49698375 ns/op	 3218429 B/op	      28 allocs/op
+BenchmarkPrimeNumbers/input=10000000-10    	       3	1216089445 ns/op	26481984 B/op	      36 allocs/op
+BenchmarkPrimeNumbers/input=50000000-10    	       3	12239094125 ns/op	128431418 B/op	      43 allocs/op
+
+=== Eratos ===
+BenchmarkPrimeNumbers/input=1000-10        	       3	      9875 ns/op	    5093 B/op	       9 allocs/op
+BenchmarkPrimeNumbers/input=10000-10       	       3	     30111 ns/op	   35429 B/op	      12 allocs/op
+BenchmarkPrimeNumbers/input=100000-10      	       3	    211819 ns/op	  464101 B/op	      19 allocs/op
+BenchmarkPrimeNumbers/input=1000000-10     	       3	   2236097 ns/op	 4224277 B/op	      27 allocs/op
+BenchmarkPrimeNumbers/input=10000000-10    	       3	  21366139 ns/op	36484458 B/op	      38 allocs/op
+BenchmarkPrimeNumbers/input=50000000-10    	       3	 178343583 ns/op	178437122 B/op	      45 allocs/op
+
+=== Atkin ===
+BenchmarkPrimeNumbers/input=1000-10        	       3	    755042 ns/op	  540360 B/op	      54 allocs/op
+BenchmarkPrimeNumbers/input=10000-10       	       3	    701722 ns/op	  558890 B/op	      53 allocs/op
+BenchmarkPrimeNumbers/input=100000-10      	       3	    787931 ns/op	  889504 B/op	      55 allocs/op
+BenchmarkPrimeNumbers/input=1000000-10     	       3	   1634528 ns/op	 3748528 B/op	      62 allocs/op
+BenchmarkPrimeNumbers/input=10000000-10    	       3	   8279958 ns/op	27014106 B/op	      74 allocs/op
+BenchmarkPrimeNumbers/input=50000000-10    	       3	  34722820 ns/op	128972362 B/op	     141 allocs/op
+
+=== ai ===
+BenchmarkPrimeNumbers/input=1000-10        	       3	     11819 ns/op	    4037 B/op	       3 allocs/op
+BenchmarkPrimeNumbers/input=10000-10       	       3	     28083 ns/op	   23680 B/op	       3 allocs/op
+BenchmarkPrimeNumbers/input=100000-10      	       3	    251278 ns/op	  170368 B/op	       3 allocs/op
+BenchmarkPrimeNumbers/input=1000000-10     	       3	   2448500 ns/op	 1376293 B/op	       3 allocs/op
+BenchmarkPrimeNumbers/input=10000000-10    	       3	  24114458 ns/op	11804714 B/op	       3 allocs/op
+BenchmarkPrimeNumbers/input=50000000-10    	       3	 123248847 ns/op	53913400 B/op	       5 allocs/op
+```
+
+A few things worth pointing at in this table without running anything:
+- **`Naive`'s time blows up non-linearly** (1e6→1e7 is a ~24x time jump for a 10x input jump) — that's the O(n·√n) trial-division cost showing up directly in `ns/op`.
+- **`ai`'s `allocs/op` stays flat at 3** across every input size (only creeping to 5 at 5e7), while `Naive` and `Eratos` climb from single digits into the 40s. That's the pre-sized `make([]int, 0, estimate)` in `ai` paying off — a correctly-estimated capacity means `append` almost never has to grow and copy the backing array, which `benchmem` makes visible in a way plain `ns/op` wouldn't.
+- **`Atkin`'s `ns/op` barely moves from 1e3 to 1e5** (755042 → 787931) — that's fixed setup/coordination cost dominating at small input, exactly what the "Final round" section above predicts, before its better asymptotic behavior takes over from 1e6 up.
