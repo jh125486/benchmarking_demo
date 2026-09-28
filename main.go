@@ -100,6 +100,13 @@ func ai(max int) []int {
 		p := 2*i + 1
 		primes = append(primes, p)
 
+		// p*p overflows int for large p; skip marking once p is past
+		// sqrt(max), since such p can have no composite in range
+		// anyway (checked via division, not p*p, to avoid overflow).
+		if p > max/p {
+			continue
+		}
+
 		for j := (p*p - 1) / 2; j <= maxIndex; j += p {
 			bits[j>>6] |= 1 << uint(j&63)
 		}
