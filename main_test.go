@@ -48,6 +48,8 @@ func BenchmarkPrimeNumbers(b *testing.B) {
 		benchPrimeNumbersSieveOfEratosthenes(b)
 	case "atkin":
 		benchPrimeNumbersSieveOfAtkin(b)
+	case "ai":
+		benchPrimeNumbersAI(b)
 	default:
 		b.Fatalf("No test type '%v' found", testType)
 	}
@@ -78,6 +80,17 @@ func TestNumbersSieveOfEratosthenes(t *testing.T) {
 func TestNumbersSieveOfAtkin(t *testing.T) {
 	// Test the first 1000 primes
 	out := sieveOfAtkin(1000)
+	if len(out) != len(primes1e3) {
+		t.Fatalf("Expected %d primes, got %d", len(primes1e3), len(out))
+	}
+	if !reflect.DeepEqual(out, primes1e3) {
+		t.Fatalf("Expected %v, got %v", primes1e3, out)
+	}
+}
+
+func TestNumbersAI(t *testing.T) {
+	// Test the first 1000 primes
+	out := ai(1000)
 	if len(out) != len(primes1e3) {
 		t.Fatalf("Expected %d primes, got %d", len(primes1e3), len(out))
 	}
@@ -120,6 +133,17 @@ func benchPrimeNumbersSieveOfAtkin(b *testing.B) {
 		b.Run(name, func(b *testing.B) {
 			for i := 0; i < b.N; i++ {
 				sieveOfAtkin(v)
+			}
+		})
+	}
+}
+
+func benchPrimeNumbersAI(b *testing.B) {
+	for _, v := range inputs {
+		name := fmt.Sprintf("input=%d", v)
+		b.Run(name, func(b *testing.B) {
+			for i := 0; i < b.N; i++ {
+				ai(v)
 			}
 		})
 	}
