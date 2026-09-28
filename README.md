@@ -39,7 +39,7 @@ go test ./...
 
 A benchmark function in Go starts with the word `Benchmark` and takes `*testing.B` as the only parameter. To run a benchmark, pass the `bench` flag to `go test`, along with the package to test.  In our case, we're restricting each benchmark for clarity with `-args`.
 
-1. Let's run Go's builtin benchmark on our naive Prime Number function:
+1. Let's run Go's builtin benchmark on our naïve Prime Number function:
 ```shell
 go test -bench=. -args Basic
 ```
@@ -51,7 +51,7 @@ go test -bench=. -count 10 -args Basic
 
 ## Second round: Naive with sub-benchmarks
 
-For many algorithms, performance issues only are found on different "sets" of input... for example, this naive function has exponential growth which we can detect with larger and larger input values.
+For many algorithms, performance issues only are found on different "sets" of input... for example, this naïve function has exponential growth which we can detect with larger and larger input values.
 
 A way to detect this is with sub-benchmarks, e.g.:
 ```go
