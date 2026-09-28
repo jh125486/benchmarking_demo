@@ -192,42 +192,42 @@ If you can't run this yourself, here's a real capture to point at instead. This 
 
 ### Time (sec/op, vs Naive)
 
-| input | Naive | Eratos | Δ vs Naive | Atkin | Δ vs Naive | ai | Δ vs Naive |
-|---|---|---|---|---|---|---|---|
-| 1,000 | 10.06µs | 7.46µs | ~ (p=0.39) | 695.6µs | +6812.70% | 5.05µs | **-49.83%** |
-| 10,000 | 109.6µs | 31.06µs | -71.66% | 635.5µs | +479.82% | 25.90µs | **-76.37%** |
-| 100,000 | 2.253ms | 251.4µs | -88.84% | 724.0µs | -67.86% | 274.0µs | **-87.84%** |
-| 1,000,000 | 48.70ms | 2.151ms | -95.58% | 1.527ms | **-96.86%** | 2.330ms | -95.21% |
-| 10,000,000 | 1209ms | 20.41ms | -98.31% | 7.652ms | **-99.37%** | 23.46ms | -98.06% |
-| 50,000,000 | 11812ms | 171.2ms | -98.55% | 33.99ms | **-99.71%** | 117.5ms | -99.01% |
-| geomean | 10.95ms | 871.4µs | -92.05% | 2.242ms | -79.53% | 782.8µs | **-92.85%** |
+| input | Naive | Eratos | Δ vs Naive | Atkin | Δ vs Naive | ai | Δ vs Naive | Winner |
+|---|---|---|---|---|---|---|---|---|
+| 1,000 | 10.06µs | 7.46µs | ~ (p=0.39) | 695.6µs | +6812.70% | 5.05µs | **-49.83%** | ai |
+| 10,000 | 109.6µs | 31.06µs | -71.66% | 635.5µs | +479.82% | 25.90µs | **-76.37%** | ai |
+| 100,000 | 2.253ms | 251.4µs | -88.84% | 724.0µs | -67.86% | 274.0µs | **-87.84%** | Eratos |
+| 1,000,000 | 48.70ms | 2.151ms | -95.58% | 1.527ms | **-96.86%** | 2.330ms | -95.21% | Atkin |
+| 10,000,000 | 1209ms | 20.41ms | -98.31% | 7.652ms | **-99.37%** | 23.46ms | -98.06% | Atkin |
+| 50,000,000 | 11812ms | 171.2ms | -98.55% | 33.99ms | **-99.71%** | 117.5ms | -99.01% | Atkin |
+| geomean | 10.95ms | 871.4µs | -92.05% | 2.242ms | -79.53% | 782.8µs | **-92.85%** | ai |
 
 ### Memory (B/op, vs Naive)
 
-| input | Naive | Eratos | Δ vs Naive | Atkin | Δ vs Naive | ai | Δ vs Naive |
-|---|---|---|---|---|---|---|---|
-| 1,000 | 3.97Ki | 4.97Ki | +25.17% | 525.3Ki | +13120.74% | 3.94Ki | **-0.91%** |
-| 10,000 | 24.60Ki | 34.60Ki | +40.65% | 543.0Ki | +2107.43% | 23.12Ki | **-5.99%** |
-| 100,000 | 349.2Ki | 453.2Ki | +29.78% | 868.4Ki | +148.66% | 166.4Ki | **-52.36%** |
-| 1,000,000 | 3.07Mi | 4.03Mi | +31.33% | 3.57Mi | +16.51% | 1.31Mi | **-57.21%** |
-| 10,000,000 | 25.26Mi | 34.79Mi | +37.77% | 25.76Mi | +2.01% | 11.26Mi | **-55.42%** |
-| 50,000,000 | 122.5Mi | 170.2Mi | +38.93% | 123.0Mi | +0.42% | 51.41Mi | **-58.02%** |
-| geomean | 838.6Ki | 1.10Mi | +33.82% | 3.71Mi | +353.16% | 480.8Ki | **-42.66%** |
+| input | Naive | Eratos | Δ vs Naive | Atkin | Δ vs Naive | ai | Δ vs Naive | Winner |
+|---|---|---|---|---|---|---|---|---|
+| 1,000 | 3.97Ki | 4.97Ki | +25.17% | 525.3Ki | +13120.74% | 3.94Ki | **-0.91%** | ai |
+| 10,000 | 24.60Ki | 34.60Ki | +40.65% | 543.0Ki | +2107.43% | 23.12Ki | **-5.99%** | ai |
+| 100,000 | 349.2Ki | 453.2Ki | +29.78% | 868.4Ki | +148.66% | 166.4Ki | **-52.36%** | ai |
+| 1,000,000 | 3.07Mi | 4.03Mi | +31.33% | 3.57Mi | +16.51% | 1.31Mi | **-57.21%** | ai |
+| 10,000,000 | 25.26Mi | 34.79Mi | +37.77% | 25.76Mi | +2.01% | 11.26Mi | **-55.42%** | ai |
+| 50,000,000 | 122.5Mi | 170.2Mi | +38.93% | 123.0Mi | +0.42% | 51.41Mi | **-58.02%** | ai |
+| geomean | 838.6Ki | 1.10Mi | +33.82% | 3.71Mi | +353.16% | 480.8Ki | **-42.66%** | ai |
 
 ### Allocations (allocs/op, vs Naive)
 
-| input | Naive | Eratos | Δ vs Naive | Atkin | Δ vs Naive | ai | Δ vs Naive |
-|---|---|---|---|---|---|---|---|
-| 1,000 | 8 | 9 | +12.50% | 51.0 | +537.50% | 3 | **-62.50%** |
-| 10,000 | 11 | 12 | +9.09% | 44.5 | +304.55% | 3 | **-72.73%** |
-| 100,000 | 18 | 19 | +5.56% | 53.5 | +197.22% | 3 | **-83.33%** |
-| 1,000,000 | 26 | 27 | +3.85% | 62.0 | +138.46% | 3 | **-88.46%** |
-| 10,000,000 | 35 | 36 | +2.86% | 72.5 | +107.14% | 3 | **-91.43%** |
-| 50,000,000 | 42 | 43 | +2.38% | 123.0 | +192.86% | 3 | **-92.86%** |
-| geomean | 19.82 | 21.00 | +5.98% | 63.75 | +221.72% | 3.00 | **-84.86%** |
+| input | Naive | Eratos | Δ vs Naive | Atkin | Δ vs Naive | ai | Δ vs Naive | Winner |
+|---|---|---|---|---|---|---|---|---|
+| 1,000 | 8 | 9 | +12.50% | 51.0 | +537.50% | 3 | **-62.50%** | ai |
+| 10,000 | 11 | 12 | +9.09% | 44.5 | +304.55% | 3 | **-72.73%** | ai |
+| 100,000 | 18 | 19 | +5.56% | 53.5 | +197.22% | 3 | **-83.33%** | ai |
+| 1,000,000 | 26 | 27 | +3.85% | 62.0 | +138.46% | 3 | **-88.46%** | ai |
+| 10,000,000 | 35 | 36 | +2.86% | 72.5 | +107.14% | 3 | **-91.43%** | ai |
+| 50,000,000 | 42 | 43 | +2.38% | 123.0 | +192.86% | 3 | **-92.86%** | ai |
+| geomean | 19.82 | 21.00 | +5.98% | 63.75 | +221.72% | 3.00 | **-84.86%** | ai |
 
 A few things worth pointing at in these tables without running anything:
 - **`ai`'s `allocs/op` stays flat at 3** across every input size, where `Naive` and `Eratos` climb into the 40s and `Atkin` into the hundreds. That's the pre-sized `make([]int, 0, estimate)` in `ai` paying off — a correctly-estimated capacity means `append` almost never has to grow and copy the backing array. `benchstat`'s `allocs/op` table makes that visible in a way `sec/op` alone wouldn't.
 - **`Atkin`'s `sec/op` `Δ vs Naive` is a huge *positive* number at small input** (+6812% at 1,000) — that's fixed setup/coordination cost dominating, exactly what the "Final round" section above predicts, before `Atkin`'s better asymptotic behavior flips that to -99.71% by 50,000,000.
-- **`ai` wins the memory and allocation tables outright at every input size**, including against `Atkin`, even where `Atkin` wins on raw time (1,000,000+). Time and memory aren't the same trade-off — benchstat's separate tables are what surface that.
+- **The `Winner` column tells three different stories per table.** `ai` sweeps memory and allocations outright, `Atkin` only takes the time column from 1,000,000 up, and even then it does it while using *more* bytes and *more* allocs than `ai` at every size — a straight algorithmic edge (a true incremental/wheel sieve does less work per candidate at large N), not a memory-for-speed trade.
 - The `~ (p=0.39)` on `Eratos` at `input=1000` means the run count (6) wasn't enough to call that difference significant at this noisy an input size — `benchstat` says so explicitly instead of reporting a misleading delta.
