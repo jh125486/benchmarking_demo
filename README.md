@@ -188,46 +188,46 @@ There's plenty of other ways to discovery performance bottlenecks using the buil
 
 ## Sample run: all four, with time and allocs
 
-If you can't run this yourself, here's a real `go test -bench=. -benchmem` capture (`go test -run=^$ -bench=. -benchmem -benchtime=3x -args <Basic|Naive|Eratos|Atkin|ai>`) on an Apple M1 Pro, `go1.27.1`, so you've got something to point at.
+If you can't run this yourself, here's a real capture to point at instead. This is [`benchstat`](https://pkg.go.dev/golang.org/x/perf/cmd/benchstat) output (`go test -bench=. -benchmem -count 6 -benchtime=3x -args <Naive|Eratos|Atkin|ai>`, then `benchstat Naive.txt Eratos.txt Atkin.txt ai.txt`) on an Apple M1 Pro, `go1.27.1` — medians across 6 runs each, with `Naive` as the comparison baseline, reformatted from benchstat's own output into tables.
 
-```
-=== Basic ===
-BenchmarkPrimeNumbers-10                   	       3	     10306 ns/op	    4074 B/op	       8 allocs/op
+### Time (sec/op, vs Naive)
 
-=== Naive ===
-BenchmarkPrimeNumbers/input=1000-10        	       3	     12875 ns/op	    4069 B/op	       8 allocs/op
-BenchmarkPrimeNumbers/input=10000-10       	       3	    111750 ns/op	   25189 B/op	      11 allocs/op
-BenchmarkPrimeNumbers/input=100000-10      	       3	   2241736 ns/op	  357605 B/op	      18 allocs/op
-BenchmarkPrimeNumbers/input=1000000-10     	       3	  49698375 ns/op	 3218429 B/op	      28 allocs/op
-BenchmarkPrimeNumbers/input=10000000-10    	       3	1216089445 ns/op	26481984 B/op	      36 allocs/op
-BenchmarkPrimeNumbers/input=50000000-10    	       3	12239094125 ns/op	128431418 B/op	      43 allocs/op
+| input | Naive | Eratos | Δ vs Naive | Atkin | Δ vs Naive | ai | Δ vs Naive |
+|---|---|---|---|---|---|---|---|
+| 1,000 | 10.06µs | 7.46µs | ~ (p=0.39) | 695.6µs | +6812.70% | 5.05µs | **-49.83%** |
+| 10,000 | 109.6µs | 31.06µs | -71.66% | 635.5µs | +479.82% | 25.90µs | **-76.37%** |
+| 100,000 | 2.253ms | 251.4µs | -88.84% | 724.0µs | -67.86% | 274.0µs | **-87.84%** |
+| 1,000,000 | 48.70ms | 2.151ms | -95.58% | 1.527ms | **-96.86%** | 2.330ms | -95.21% |
+| 10,000,000 | 1209ms | 20.41ms | -98.31% | 7.652ms | **-99.37%** | 23.46ms | -98.06% |
+| 50,000,000 | 11812ms | 171.2ms | -98.55% | 33.99ms | **-99.71%** | 117.5ms | -99.01% |
+| geomean | 10.95ms | 871.4µs | -92.05% | 2.242ms | -79.53% | 782.8µs | **-92.85%** |
 
-=== Eratos ===
-BenchmarkPrimeNumbers/input=1000-10        	       3	      9875 ns/op	    5093 B/op	       9 allocs/op
-BenchmarkPrimeNumbers/input=10000-10       	       3	     30111 ns/op	   35429 B/op	      12 allocs/op
-BenchmarkPrimeNumbers/input=100000-10      	       3	    211819 ns/op	  464101 B/op	      19 allocs/op
-BenchmarkPrimeNumbers/input=1000000-10     	       3	   2236097 ns/op	 4224277 B/op	      27 allocs/op
-BenchmarkPrimeNumbers/input=10000000-10    	       3	  21366139 ns/op	36484458 B/op	      38 allocs/op
-BenchmarkPrimeNumbers/input=50000000-10    	       3	 178343583 ns/op	178437122 B/op	      45 allocs/op
+### Memory (B/op, vs Naive)
 
-=== Atkin ===
-BenchmarkPrimeNumbers/input=1000-10        	       3	    755042 ns/op	  540360 B/op	      54 allocs/op
-BenchmarkPrimeNumbers/input=10000-10       	       3	    701722 ns/op	  558890 B/op	      53 allocs/op
-BenchmarkPrimeNumbers/input=100000-10      	       3	    787931 ns/op	  889504 B/op	      55 allocs/op
-BenchmarkPrimeNumbers/input=1000000-10     	       3	   1634528 ns/op	 3748528 B/op	      62 allocs/op
-BenchmarkPrimeNumbers/input=10000000-10    	       3	   8279958 ns/op	27014106 B/op	      74 allocs/op
-BenchmarkPrimeNumbers/input=50000000-10    	       3	  34722820 ns/op	128972362 B/op	     141 allocs/op
+| input | Naive | Eratos | Δ vs Naive | Atkin | Δ vs Naive | ai | Δ vs Naive |
+|---|---|---|---|---|---|---|---|
+| 1,000 | 3.97Ki | 4.97Ki | +25.17% | 525.3Ki | +13120.74% | 3.94Ki | **-0.91%** |
+| 10,000 | 24.60Ki | 34.60Ki | +40.65% | 543.0Ki | +2107.43% | 23.12Ki | **-5.99%** |
+| 100,000 | 349.2Ki | 453.2Ki | +29.78% | 868.4Ki | +148.66% | 166.4Ki | **-52.36%** |
+| 1,000,000 | 3.07Mi | 4.03Mi | +31.33% | 3.57Mi | +16.51% | 1.31Mi | **-57.21%** |
+| 10,000,000 | 25.26Mi | 34.79Mi | +37.77% | 25.76Mi | +2.01% | 11.26Mi | **-55.42%** |
+| 50,000,000 | 122.5Mi | 170.2Mi | +38.93% | 123.0Mi | +0.42% | 51.41Mi | **-58.02%** |
+| geomean | 838.6Ki | 1.10Mi | +33.82% | 3.71Mi | +353.16% | 480.8Ki | **-42.66%** |
 
-=== ai ===
-BenchmarkPrimeNumbers/input=1000-10        	       3	     11819 ns/op	    4037 B/op	       3 allocs/op
-BenchmarkPrimeNumbers/input=10000-10       	       3	     28083 ns/op	   23680 B/op	       3 allocs/op
-BenchmarkPrimeNumbers/input=100000-10      	       3	    251278 ns/op	  170368 B/op	       3 allocs/op
-BenchmarkPrimeNumbers/input=1000000-10     	       3	   2448500 ns/op	 1376293 B/op	       3 allocs/op
-BenchmarkPrimeNumbers/input=10000000-10    	       3	  24114458 ns/op	11804714 B/op	       3 allocs/op
-BenchmarkPrimeNumbers/input=50000000-10    	       3	 123248847 ns/op	53913400 B/op	       5 allocs/op
-```
+### Allocations (allocs/op, vs Naive)
 
-A few things worth pointing at in this table without running anything:
-- **`Naive`'s time blows up non-linearly** (1e6→1e7 is a ~24x time jump for a 10x input jump) — that's the O(n·√n) trial-division cost showing up directly in `ns/op`.
-- **`ai`'s `allocs/op` stays flat at 3** across every input size (only creeping to 5 at 5e7), while `Naive` and `Eratos` climb from single digits into the 40s. That's the pre-sized `make([]int, 0, estimate)` in `ai` paying off — a correctly-estimated capacity means `append` almost never has to grow and copy the backing array, which `benchmem` makes visible in a way plain `ns/op` wouldn't.
-- **`Atkin`'s `ns/op` barely moves from 1e3 to 1e5** (755042 → 787931) — that's fixed setup/coordination cost dominating at small input, exactly what the "Final round" section above predicts, before its better asymptotic behavior takes over from 1e6 up.
+| input | Naive | Eratos | Δ vs Naive | Atkin | Δ vs Naive | ai | Δ vs Naive |
+|---|---|---|---|---|---|---|---|
+| 1,000 | 8 | 9 | +12.50% | 51.0 | +537.50% | 3 | **-62.50%** |
+| 10,000 | 11 | 12 | +9.09% | 44.5 | +304.55% | 3 | **-72.73%** |
+| 100,000 | 18 | 19 | +5.56% | 53.5 | +197.22% | 3 | **-83.33%** |
+| 1,000,000 | 26 | 27 | +3.85% | 62.0 | +138.46% | 3 | **-88.46%** |
+| 10,000,000 | 35 | 36 | +2.86% | 72.5 | +107.14% | 3 | **-91.43%** |
+| 50,000,000 | 42 | 43 | +2.38% | 123.0 | +192.86% | 3 | **-92.86%** |
+| geomean | 19.82 | 21.00 | +5.98% | 63.75 | +221.72% | 3.00 | **-84.86%** |
+
+A few things worth pointing at in these tables without running anything:
+- **`ai`'s `allocs/op` stays flat at 3** across every input size, where `Naive` and `Eratos` climb into the 40s and `Atkin` into the hundreds. That's the pre-sized `make([]int, 0, estimate)` in `ai` paying off — a correctly-estimated capacity means `append` almost never has to grow and copy the backing array. `benchstat`'s `allocs/op` table makes that visible in a way `sec/op` alone wouldn't.
+- **`Atkin`'s `sec/op` `Δ vs Naive` is a huge *positive* number at small input** (+6812% at 1,000) — that's fixed setup/coordination cost dominating, exactly what the "Final round" section above predicts, before `Atkin`'s better asymptotic behavior flips that to -99.71% by 50,000,000.
+- **`ai` wins the memory and allocation tables outright at every input size**, including against `Atkin`, even where `Atkin` wins on raw time (1,000,000+). Time and memory aren't the same trade-off — benchstat's separate tables are what surface that.
+- The `~ (p=0.39)` on `Eratos` at `input=1000` means the run count (6) wasn't enough to call that difference significant at this noisy an input size — `benchstat` says so explicitly instead of reporting a misleading delta.
